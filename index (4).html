@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Verdien geld met apps & games testen | TesterUp</title>
+  <link rel="icon" href="data:,">
+  <meta name="description" content="Ontvang een bonus, voltooi 2 korte taken en begin direct met verdienen via apps en games testen." />
+  <link rel="preload" as="image" href="assets/testerup-logo.webp" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      /* ── Testerup palette: dark navy + red ── */
+      --bg:         #060818;
+      --bg-2:       #0c1028;
+      --card:       rgba(14, 18, 50, 0.97);
+      --border:     rgba(224, 24, 46, 0.18);
+      --red:        #e0182e;
+      --red-dark:   #b8121f;
+      --red-soft:   rgba(224, 24, 46, 0.13);
+      --navy:       #1a1c3e;
+      --text:       #eef0f9;
+      --muted:      #8a93ba;
+      --yellow:     #ffd25e;
+      --shadow:     0 22px 60px rgba(0,0,0,0.45);
+      --font:       -apple-system, "Segoe UI", system-ui, sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      min-height: 100vh;
+      font-family: var(--font);
+      color: var(--text);
+      background:
+        radial-gradient(circle at top center, rgba(224,24,46,0.18), transparent 32%),
+        linear-gradient(180deg, #090b20 0%, #060818 40%, #04060f 100%);
+      display: flex;
+      justify-content: center;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .page {
+      width: 100%;
+      max-width: 520px;
+      padding: 20px 18px 46px;
+    }
+
+    /* ── Topbar ── */
+    .topbar {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 16px;
+    }
+
+    .top-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(10, 12, 30, 0.90);
+      border: 1px solid rgba(255,255,255,0.08);
+      color: #cdd2f0;
+      border-radius: 999px;
+      padding: 8px 14px;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      box-shadow: var(--shadow);
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--red);
+      box-shadow: 0 0 0 6px rgba(224,24,46,0.15);
+      flex-shrink: 0;
+      animation: pulse 1.8s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%,100% { box-shadow: 0 0 0 6px rgba(224,24,46,0.15); }
+      50%      { box-shadow: 0 0 0 10px rgba(224,24,46,0.04); }
+    }
+
+    /* ── Hero ── */
+    .hero {
+      background: linear-gradient(180deg, rgba(22,26,66,0.97), rgba(12,16,40,0.97));
+      border: 1px solid var(--border);
+      border-radius: 28px;
+      padding: 22px 18px 20px;
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+      margin-bottom: 16px;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at top right, rgba(224,24,46,0.14), transparent 30%);
+      pointer-events: none;
+    }
+
+    /* ── Logo ── */
+    .logos {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 16px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .logo-wrap {
+      display: flex;
+      align-items: center;
+      padding: 10px 20px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.09);
+    }
+
+    .logo-wrap img {
+      height: 36px;
+      width: auto;
+      object-fit: contain;
+    }
+
+    .logo-wordmark {
+      display: none;
+      align-items: center;
+      gap: 2px;
+      font-size: 24px;
+      font-weight: 900;
+      letter-spacing: -0.03em;
+      line-height: 1;
+    }
+    .logo-wordmark .navy-t { color: #ffffff; }
+    .logo-wordmark .red-up { color: var(--red); }
+    .logo-wordmark .logo-icon {
+      width: 30px; height: 30px; margin-right: 6px;
+    }
+
+    /* ── Urgency ── */
+    .urgency {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 12px;
+      border-radius: 999px;
+      background: rgba(224,24,46,0.12);
+      color: #ff7585;
+      border: 1px solid rgba(224,24,46,0.28);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      margin: 0 auto 16px;
+      width: fit-content;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ── Headline ── */
+    .headline {
+      text-align: center;
+      font-size: clamp(30px, 8vw, 44px);
+      line-height: 1.06;
+      letter-spacing: -0.04em;
+      font-weight: 900;
+      margin-bottom: 12px;
+      position: relative;
+      z-index: 1;
+    }
+    .headline .accent { color: var(--red); }
+
+    .subtext {
+      text-align: center;
+      font-size: 15px;
+      line-height: 1.6;
+      color: var(--muted);
+      max-width: 420px;
+      margin: 0 auto 10px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .trust-line {
+      text-align: center;
+      font-size: 13px;
+      color: #9aa0d0;
+      font-weight: 700;
+      margin: 0 auto 18px;
+      position: relative;
+      z-index: 1;
+    }
+    .trust-line strong { color: #ffffff; }
+
+    /* ── Proof cards ── */
+    .proof-row {
+      display: grid;
+      grid-template-columns: repeat(3,1fr);
+      gap: 10px;
+      margin-bottom: 18px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .proof-card {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 18px;
+      padding: 12px 10px;
+      text-align: center;
+    }
+    .proof-card strong {
+      display: block;
+      font-size: 17px;
+      line-height: 1.1;
+      color: #fff;
+      margin-bottom: 4px;
+    }
+    .proof-card span {
+      font-size: 11px;
+      line-height: 1.35;
+      color: var(--muted);
+    }
+
+    /* ── CTA ── */
+    .cta-stack {
+      position: sticky;
+      bottom: 14px;
+      z-index: 10;
+    }
+
+    .cta-btn {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      text-decoration: none;
+      background: linear-gradient(180deg, #f5263e 0%, #c0101e 100%);
+      color: #ffffff;
+      border-radius: 20px;
+      padding: 18px 18px;
+      border: none;
+      box-shadow: 0 18px 40px rgba(224,24,46,0.40), inset 0 1px 0 rgba(255,255,255,0.16);
+      transition: transform .12s ease, box-shadow .12s ease, filter .12s ease;
+      margin-bottom: 10px;
+    }
+    .cta-btn:hover  { transform: translateY(-2px) scale(1.01); filter: brightness(1.06); }
+    .cta-btn:active { transform: translateY(0); }
+
+    .cta-icon {
+      min-width: 56px;
+      height: 38px;
+      border-radius: 12px;
+      background: rgba(0,0,0,0.20);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      flex-shrink: 0;
+      padding: 0 10px;
+    }
+    .cta-icon svg { width: 18px; height: 18px; fill: #fff; }
+
+    .cta-copy { display: flex; flex-direction: column; align-items: flex-start; }
+    .cta-copy strong {
+      font-size: 18px; line-height: 1.15; font-weight: 900;
+      color: #ffffff; letter-spacing: -0.02em;
+    }
+    .cta-copy span {
+      font-size: 12px; line-height: 1.35;
+      color: rgba(255,255,255,0.70); font-weight: 700;
+    }
+
+    .cta-note {
+      text-align: center; font-size: 12px;
+      color: #8a93ba; line-height: 1.45; margin-bottom: 4px;
+    }
+    .cta-note strong { color: #fff; }
+
+    /* ── Info strip ── */
+    .strip {
+      margin: 16px 0;
+      background: linear-gradient(180deg, rgba(224,24,46,0.11), rgba(224,24,46,0.05));
+      border: 1px solid rgba(224,24,46,0.22);
+      color: #f0c8cc;
+      border-radius: 18px;
+      padding: 14px 15px;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+    .strip strong { color: #fff; }
+
+    /* ── Section title ── */
+    .section-title {
+      font-size: 12px; font-weight: 800;
+      letter-spacing: .12em; text-transform: uppercase;
+      color: #50587a; margin: 18px 0 10px; text-align: center;
+    }
+
+    /* ── Cards shared ── */
+    .offer-card, .steps, .testimonial {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      box-shadow: var(--shadow);
+    }
+
+    /* ── Offer card ── */
+    .offer-card {
+      padding: 16px;
+      display: grid;
+      grid-template-columns: 54px 1fr auto;
+      gap: 14px;
+      align-items: center;
+      margin-bottom: 14px;
+    }
+    .offer-icon {
+      width: 54px; height: 54px; border-radius: 16px;
+      background: var(--red-soft);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .offer-icon svg { width: 22px; height: 22px; fill: var(--red); }
+
+    .offer-info strong { display: block; font-size: 16px; line-height: 1.2; margin-bottom: 6px; }
+    .offer-info span  { display: inline-block; font-size: 12px; color: var(--muted); line-height: 1.5; }
+
+    .offer-price { text-align: right; }
+    .offer-price strong { display: block; font-size: 26px; color: var(--red); line-height: 1; }
+    .offer-price span  { font-size: 11px; color: #ffe28f; font-weight: 800; letter-spacing: .05em; text-transform: uppercase; }
+
+    /* ── Steps ── */
+    .steps { padding: 12px; display: grid; gap: 10px; margin-bottom: 16px; }
+
+    .step {
+      display: grid; grid-template-columns: 42px 1fr;
+      gap: 12px; align-items: start; padding: 12px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(255,255,255,0.05);
+    }
+    .step-num {
+      width: 42px; height: 42px; border-radius: 14px;
+      background: var(--red-soft); color: var(--red);
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 900; font-size: 16px;
+    }
+    .step h3 { font-size: 15px; margin-bottom: 4px; line-height: 1.3; }
+    .step p  { font-size: 13px; color: var(--muted); line-height: 1.55; }
+
+    /* ── Testimonial ── */
+    .testimonial { padding: 16px; margin-bottom: 18px; }
+    .stars { color: #ffd25e; font-size: 15px; letter-spacing: 1px; margin-bottom: 8px; }
+    .testimonial p        { font-size: 14px; color: #c8cceb; line-height: 1.65; margin-bottom: 10px; }
+    .testimonial strong   { font-size: 13px; color: #ffffff; }
+
+    /* ── Footer ── */
+    footer { text-align: center; padding-top: 4px; color: #40486a; font-size: 12px; line-height: 1.6; }
+    footer a { color: inherit; text-decoration: none; margin: 0 10px; }
+
+    @media (max-width: 420px) {
+      .page { padding-left: 14px; padding-right: 14px; }
+      .proof-row { grid-template-columns: 1fr; }
+      .offer-card { grid-template-columns: 50px 1fr; }
+      .offer-price { grid-column: 2; text-align: left; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+
+    <!-- Topbar -->
+    <div class="topbar">
+      <div class="top-pill"><span class="dot"></span>Nieuw account vereist</div>
+    </div>
+
+    <!-- Hero -->
+    <section class="hero">
+
+      <!-- Logo -->
+      <div class="logos">
+        <div class="logo-wrap">
+          <img
+            src="assets/testerup-logo.webp"
+            alt="TesterUp"
+            fetchpriority="high"
+            onerror="this.style.display='none'; document.getElementById('wm').style.display='flex';"
+          />
+          <!-- Wordmark fallback -->
+          <div class="logo-wordmark" id="wm">
+            <svg class="logo-icon" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="1" y="3" width="24" height="19" rx="4" stroke="#ffffff" stroke-width="2.2"/>
+              <path d="M6 17 L10 12 L14 15 L20 7" stroke="#e0182e" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M5 25 L8 22 M21 25 L18 22" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round"/>
+            </svg>
+            <span class="navy-t">tester</span><span class="red-up">up</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="urgency">🔴&nbsp; Beperkte toegang vandaag</div>
+
+      <h1 class="headline">
+        Verdien geld met <span class="accent">apps</span><br>en games testen
+      </h1>
+
+      <p class="subtext">
+        Meld u aan, voltooi <strong>2 korte taken</strong> en ontgrendel direct het testen van apps, games en scroll-opdrachten.
+      </p>
+
+      <div class="trust-line">
+        ✔ Er is al <strong>$50M+</strong> uitbetaald aan gebruikers
+      </div>
+
+      <div class="proof-row">
+        <div class="proof-card">
+          <strong>10 $</strong>
+          <span>welkomstbonus voor nieuwe accounts</span>
+        </div>
+        <div class="proof-card">
+          <strong>2 min</strong>
+          <span>om uw account te starten</span>
+        </div>
+        <div class="proof-card">
+          <strong>iOS + Android</strong>
+          <span>werkt op beide apparaten</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <div class="cta-stack">
+      <a
+        href="https://rainawards.com/r/eyJ0IjoiZnJlZWNhc2gtY3BpIiwidSI6IjY5Y2QyOTk5YWQ4OTBhZjQ2ZTU1YWMzOCIsInRzIjoxNzc1MDU1MTgxMzU3fQ"
+        class="cta-btn"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Start nu en verdien geld"
+      >
+        <span class="cta-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24">
+            <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
+          </svg>
+          <svg viewBox="0 0 24 24">
+            <path d="M17.6 9.48l1.43-2.49-.87-.5-1.45 2.51a7.93 7.93 0 0 0-6.42 0L8.84 6.49l-.87.5 1.43 2.49A6.978 6.978 0 0 0 5 15v3h2v-3a5 5 0 0 1 10 0v3h2v-3a6.978 6.978 0 0 0-1.4-5.52zM9 13h2v2H9zm4 0h2v2h-2z"/>
+          </svg>
+        </span>
+        <span class="cta-copy">
+          <strong>Start nu en verdien geld</strong>
+          <span>iOS & Android — gratis registratie</span>
+        </span>
+      </a>
+
+      <div class="cta-note">
+        <strong>Belangrijk:</strong> alleen nieuwe accounts komen in aanmerking voor deze aanbieding.
+      </div>
+    </div>
+
+    <!-- Strip -->
+    <div class="strip">
+      <strong>Hoe werkt de vergoeding?</strong> TesterUp betaalt per voltooide taak — apps testen, games spelen en enquêtes invullen. Uitbetaling via PayPal zodra je $70 hebt bereikt.
+    </div>
+
+    <!-- Wat u krijgt -->
+    <div class="section-title">Wat u krijgt</div>
+    <div class="offer-card">
+      <div class="offer-icon">
+        <svg viewBox="0 0 24 24">
+          <rect x="2" y="3" width="20" height="14" rx="3"/>
+          <path d="M8 21h8M12 17v4"/>
+        </svg>
+      </div>
+      <div class="offer-info">
+        <strong>Apps & games testen</strong>
+        <span>Na activatie: apps testen, games spelen en korte taken voltooien vanuit uw dashboard.</span>
+      </div>
+      <div class="offer-price">
+        <strong>10 $</strong>
+        <span>startbonus</span>
+      </div>
+    </div>
+
+    <!-- Zo werkt het -->
+    <div class="section-title">Zo werkt het</div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div>
+          <h3>Klik op de rode knop</h3>
+          <p>Maak via deze pagina een nieuw TesterUp-account aan om in aanmerking te komen voor de bonus.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div>
+          <h3>Voltooi 2 korte taken</h3>
+          <p>Rond de eerste eenvoudige acties af zodat uw test-aanbieding wordt vrijgegeven.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div>
+          <h3>Start met verdienen</h3>
+          <p>Ga daarna direct door met apps testen, games spelen en andere betaalde opdrachten.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Testimonial -->
+    <div class="testimonial">
+      <div class="stars">★★★★★</div>
+      <p>"Geweldige app! Ik heb al €120 verdiend door gewoon games te spelen die ik toch al deed. Uitbetaling via PayPal werkt prima."</p>
+      <strong>— Geverifieerde TesterUp gebruiker</strong>
+    </div>
+
+    <footer>
+      <a href="#">Privacy</a>
+      <a href="#">Gebruiksvoorwaarden</a>
+      <a href="#">Disclaimer</a><br>
+      © 2026 Alle rechten voorbehouden.
+    </footer>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      document.querySelectorAll("a").forEach(function (el) {
+        var href = el.getAttribute("href");
+        if (!href || href.includes("#")) return;
+        if (href.includes("?")) {
+          el.setAttribute("href", href + window.location.search.replace("?", "&"));
+        } else {
+          el.setAttribute("href", href + window.location.search);
+        }
+      });
+    });
+  </script>
+</body>
+</html>
